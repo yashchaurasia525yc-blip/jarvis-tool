@@ -3,25 +3,30 @@ import requests
 import os
 
 app = Flask(__name__)
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 @app.route("/jarvis", methods=["POST"])
 def jarvis():
     data = request.json
     user_command = data.get("command", "")
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_API_KEY}"
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "google/gemini-2.0-flash-lite:free",
+            "messages": [
+                {"role": "system", "content": "You are Jarvis, a helpful AI assistant. Answer concisely."},
+                {"role": "user", "content": user_command}
+            ]
+        }
+    )
     
-    body = {"contents": [{"parts": [{"text": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}]}]}
-    
-    response = requests.post(url, json=body)
     result = response.json()
-    
-    if "candidates" in result:
-        answer = result["candidates"][0]["content"]["parts"][0]["text"]
-    else:
-        answer = str(result)
-    
+    answer = result["choices"][0]["message"]["content"]
     return jsonify({"response": answer})
 
 if __name__ == "__main__":
