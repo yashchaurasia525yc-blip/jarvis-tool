@@ -1,29 +1,23 @@
 from flask import Flask, request, jsonify
-import google.generativeai as genai
+import requests
+import os
 
 app = Flask(__name__)
-
-# Apni API key yahan daalo
-import os
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-pro")
 
 @app.route("/jarvis", methods=["POST"])
 def jarvis():
     data = request.json
     user_command = data.get("command", "")
     
-    if not user_command:
-        return jsonify({"error": "No command given"}), 400
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_API_KEY}"
     
-    response = model.generate_content(
-        f"You are Jarvis, a helpful AI assistant. "
-        f"Answer concisely. User said: {user_command}"
-    )
+    body = {"contents": [{"parts": [{"text": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}]}]}
     
-    return jsonify({"response": response.text})
+    response = requests.post(url, json=body)
+    result = response.json()
+    answer = result["candidates"][0]["content"]["parts"][0]["text"]
+    return jsonify({"response": answer})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
