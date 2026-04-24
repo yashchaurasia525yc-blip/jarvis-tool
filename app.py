@@ -16,7 +16,7 @@ def jarvis():
             "Content-Type": "application/json"
         },
         json={
-            "model": "openrouter/auto",
+            "model": "deepseek/deepseek-r1:free",
             "messages": [
                 {"role": "system", "content": "You are Jarvis AI assistant. Answer concisely."},
                 {"role": "user", "content": user_command}
