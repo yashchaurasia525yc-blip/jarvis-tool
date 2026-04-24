@@ -16,7 +16,12 @@ def jarvis():
     
     response = requests.post(url, json=body)
     result = response.json()
-    answer = result["candidates"][0]["content"]["parts"][0]["text"]
+    
+    if "candidates" in result:
+        answer = result["candidates"][0]["content"]["parts"][0]["text"]
+    else:
+        answer = str(result)
+    
     return jsonify({"response": answer})
 
 if __name__ == "__main__":
