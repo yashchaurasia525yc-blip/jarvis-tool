@@ -16,7 +16,7 @@ def jarvis():
             "Content-Type": "application/json"
         },
         json={
-            "model": "mistralai/mistral-7b-instruct:free",
+            "model": "meta-llama/llama-3.3-70b-instruct:free",
             "messages": [
                 {"role": "system", "content": "You are Jarvis AI assistant. Answer concisely."},
                 {"role": "user", "content": user_command}
