@@ -16,7 +16,7 @@ def jarvis():
             "Content-Type": "application/json"
         },
         json={
-            "model": "deepseek/deepseek-r1:free",
+            "model": "google/gemma-3-27b-it:free",
             "messages": [
                 {"role": "system", "content": "You are Jarvis AI assistant. Answer concisely."},
                 {"role": "user", "content": user_command}
