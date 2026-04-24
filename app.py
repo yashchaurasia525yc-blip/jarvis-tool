@@ -16,7 +16,7 @@ def jarvis():
             "Content-Type": "application/json"
         },
         json={
-            "model": "google/gemini-2.0-flash-exp:free",
+            "model": "meta-llama/llama-3.2-3b-instruct:free",
             "messages": [
                 {"role": "system", "content": "You are Jarvis AI assistant. Answer concisely."},
                 {"role": "user", "content": user_command}
