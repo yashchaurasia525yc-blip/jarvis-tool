@@ -9,6 +9,7 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 def jarvis():
     data = request.json
     user_command = data.get("command", "")
+    
     response = requests.post(
         "https://openrouter.ai/api/v1/chat/completions",
         headers={
@@ -18,11 +19,11 @@ def jarvis():
         json={
             "model": "google/gemma-3-27b-it:free",
             "messages": [
-                {"role": "system", "content": "You are Jarvis AI assistant. Answer concisely."},
-                {"role": "user", "content": user_command}
+                {"role": "user", "content": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}
             ]
         }
     )
+    
     result = response.json()
     if "choices" in result:
         answer = result["choices"][0]["message"]["content"]
