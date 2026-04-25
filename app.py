@@ -14,10 +14,14 @@ def jarvis():
         "https://openrouter.ai/api/v1/chat/completions",
         headers={
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-Title": "Jarvis"
         },
         json={
-            "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+            "model": "meta-llama/llama-3.3-70b-instruct:free",
+            "provider": {
+                "ignore": ["Venice"]
+            },
             "messages": [
                 {"role": "user", "content": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}
             ]
