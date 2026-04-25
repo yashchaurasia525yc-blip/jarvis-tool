@@ -3,7 +3,7 @@ import requests
 import os
 
 app = Flask(__name__)
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
 @app.route("/jarvis", methods=["POST"])
 def jarvis():
@@ -11,16 +11,16 @@ def jarvis():
     user_command = data.get("command", "")
     
     response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
+        "https://api.groq.com/openai/v1/chat/completions",
         headers={
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json",
-            "X-Title": "Jarvis"
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
         },
         json={
-            "model": "google/gemma-3-12b-it:free",
+            "model": "llama-3.3-70b-versatile",
             "messages": [
-                {"role": "user", "content": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}
+                {"role": "system", "content": "You are Jarvis, a helpful AI assistant. Answer concisely."},
+                {"role": "user", "content": user_command}
             ]
         }
     )
