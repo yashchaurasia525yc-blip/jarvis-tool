@@ -18,10 +18,7 @@ def jarvis():
             "X-Title": "Jarvis"
         },
         json={
-            "model": "meta-llama/llama-3.3-70b-instruct:free",
-            "provider": {
-                "ignore": ["Venice"]
-            },
+            "model": "google/gemma-3-12b-it:free",
             "messages": [
                 {"role": "user", "content": f"You are Jarvis AI assistant. Answer concisely. User said: {user_command}"}
             ]
