@@ -19,7 +19,7 @@ def jarvis():
         json={
             "model": "llama-3.3-70b-versatile",
             "messages": [
-                {"role": "system", "content": "You are Jarvis, a helpful AI assistant. Answer concisely."},
+                {"role": "system", "content": "You are Jarvis, a helpful AI assistant. Answer concisely in 1-2 sentences only."},
                 {"role": "user", "content": user_command}
             ]
         }
@@ -29,8 +29,9 @@ def jarvis():
     if "choices" in result:
         answer = result["choices"][0]["message"]["content"]
     else:
-        answer = str(result)
-    return jsonify({"response": answer})
+        answer = "Sorry, I could not process that."
+    
+    return answer, 200, {"Content-Type": "text/plain"}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
